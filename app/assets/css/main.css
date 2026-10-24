@@ -1,0 +1,175 @@
+@import "tailwindcss";
+
+@theme {
+  /* Permukaan: blush pastel */
+  --color-ink-950: #fff7fa;
+  --color-ink-900: #fff0f5;
+  --color-ink-800: #ffffff;
+  --color-ink-700: #ffe4ec;
+  /* Teks: cocoa */
+  --color-fog: #5b3a46;
+  --color-mist: #8a6573;
+  /* Aksen: pink & butter yellow */
+  --color-rose: #e5588b;
+  --color-rose-soft: #ff95b8;
+  --color-cocoa: #5b3a46;
+  --color-amber: #a77800;
+  --color-blush-100: #ffe9f0;
+  --color-blush-200: #ffd3e1;
+  --color-blush-300: #ffb8cf;
+  --color-butter-100: #fff6c9;
+  --color-butter-200: #ffee9e;
+  --color-butter-300: #ffe375;
+  --color-butter-400: #ffd54f;
+  --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-blink: blink 1s steps(2) infinite;
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-rise: rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-scroll-cue: scrollcue 1.8s ease-in-out infinite;
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+  @keyframes marquee {
+    to { transform: translateX(-50%); }
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(26px); }
+  }
+  @keyframes scrollcue {
+    0% { opacity: 0; transform: translateY(-4px); }
+    40% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(10px); }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  background: var(--color-ink-950);
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-fog);
+  background:
+    radial-gradient(60rem 40rem at 10% -10%, var(--color-blush-100), transparent 60%),
+    radial-gradient(50rem 40rem at 100% 10%, var(--color-butter-100), transparent 60%),
+    radial-gradient(50rem 40rem at 0% 90%, #fffbea, transparent 60%),
+    var(--color-ink-950);
+  background-attachment: fixed;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+::selection {
+  background: var(--color-butter-300);
+  color: var(--color-fog);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-rose-soft);
+  outline-offset: 3px;
+}
+
+/* Reveal saat scroll - pastikan konten selalu terlihat dan tidak hilang */
+.reveal {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: var(--d, 0ms);
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Tombol */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.8rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary {
+  background: var(--color-rose);
+  color: #fff;
+  box-shadow: 0 12px 30px -10px rgb(240 106 155 / 0.55);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  background: #d94a80;
+}
+.btn-ghost {
+  border: 2px solid var(--color-butter-300);
+  background: var(--color-butter-100);
+  color: var(--color-cocoa);
+}
+.btn-ghost:hover {
+  transform: translateY(-2px);
+  background: var(--color-butter-200);
+}
+
+/* Label & judul section */
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #d94a80;
+}
+.section-title {
+  margin-top: 0.6rem;
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.08;
+}
+
+/* Panel kaca */
+.panel {
+  border: 2px solid #fff;
+  background: rgb(255 255 255 / 0.78);
+  box-shadow: 0 10px 30px -12px rgb(240 106 155 / 0.3);
+  border-radius: 1.5rem;
+}
+.panel-butter {
+  background: linear-gradient(135deg, var(--color-butter-100), var(--color-butter-200));
+}
+
+kbd {
+  display: inline-block;
+  min-width: 1.6rem;
+  border: 1px solid rgb(91 58 70 / 0.25);
+  border-bottom-width: 2px;
+  border-radius: 0.4rem;
+  background: #fff;
+  padding: 0.05rem 0.4rem;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-cocoa);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .animate-marquee, .animate-float, .animate-rise { animation: none; }
+}
