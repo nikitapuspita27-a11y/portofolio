@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useReveal } from './composables/useReveal'
 useReveal()
 </script>
 

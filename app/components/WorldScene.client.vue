@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import * as THREE from 'three'
-import { profile } from '~/data/profile'
+import { profile } from '../data/profile'
+import {
+  ref,
+  reactive,
+  toRef,
+  onMounted,
+  onBeforeUnmount
+} from 'vue'
+import { useSelectedProject } from '../composables/useSelectedProject'
 
 // Dunia 3D interaktif: kendarai mobil ke tiap pos untuk membuka proyek.
 // Hanya memakai Three.js (tanpa library fisika), jadi ringan dan mudah diubah.
@@ -49,6 +57,7 @@ const joyUp = () => {
 onMounted(() => {
   const el = host.value
   if (!el) return
+  console.log('WORLD SCENE MOUNTED', el.clientWidth, el.clientHeight)
   isTouch.value = window.matchMedia('(pointer: coarse)').matches
   const coarse = isTouch.value
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -74,6 +83,7 @@ onMounted(() => {
   renderer.shadowMap.type = THREE.PCFSoftShadowMap
   renderer.domElement.style.display = 'block'
   el.appendChild(renderer.domElement)
+  console.log('Canvas 3D berhasil dibuat:', el.clientWidth, el.clientHeight)
 
   // ---------- Helper ----------
   let seed = 20261023
@@ -619,6 +629,7 @@ onMounted(() => {
     const w = el.clientWidth || 1
     const h = el.clientHeight || 1
     renderer.setSize(w, h)
+    console.log('UKURAN AREA 3D:', w, h)
     camera.aspect = w / h
     camera.updateProjectionMatrix()
   }
@@ -629,6 +640,7 @@ onMounted(() => {
   const io = new IntersectionObserver(
     ([entry]) => {
       visible = entry.intersectionRatio > 0.05
+      console.log('VISIBILITY 3D:', visible, entry.intersectionRatio)
       if (entry.intersectionRatio < 0.3 && activeRef.value) emit('exit')
     },
     { threshold: [0, 0.05, 0.3] },
@@ -853,15 +865,26 @@ onMounted(() => {
   let t = 0
   let sentReady = false
   renderer.setAnimationLoop(() => {
-    const dt = Math.min(clock.getDelta(), 0.05)
-    if (!visible) return
-    t += dt
-    step(dt, t)
-    renderer.render(scene, camera)
+     console.log('ANIMATION LOOP DIPANGGIL')
+
+  const dt = Math.min(clock.getDelta(), 0.05)
+  console.log('STATUS VISIBLE:', visible)
+  if (!visible) return
+  t += dt
+  step(dt, t)
+  renderer.render(scene, camera)
+  console.log('RENDER BERJALAN')
+  if (!sentReady) {
+  console.log('JUMLAH OBJEK:', scene.children.length)
+  console.log('POSISI KAMERA:', camera.position)
+  console.log('UKURAN CANVAS:', renderer.domElement.width, renderer.domElement.height)
+}
+  console.log('RENDER BERJALAN', scene.children.length)
     if (!sentReady) {
-      sentReady = true
-      emit('ready')
-    }
+  sentReady = true
+  console.log('DUNIA 3D: EVENT READY TERPANGGIL')
+  emit('ready')
+}
   })
 
   cleanup = () => {

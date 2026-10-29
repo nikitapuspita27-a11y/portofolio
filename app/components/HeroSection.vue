@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { profile } from '~/data/profile'
+import { profile } from '../data/profile'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 
-const started = ref(false)
+const started = ref(true)
 const ready = ref(false)
 const isTouch = ref(false)
+
+console.log('HERO SECTION DIMUAT')
 
 const scrollTo = (id: string) => {
   const el = document.getElementById(id)
