@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { profile } from '../data/profile'
+import WorldScene from './WorldScene.client.vue'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 const started = ref(true)

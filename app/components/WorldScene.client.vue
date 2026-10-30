@@ -641,7 +641,6 @@ onMounted(() => {
     ([entry]) => {
       visible = entry.intersectionRatio > 0.05
       console.log('VISIBILITY 3D:', visible, entry.intersectionRatio)
-      if (entry.intersectionRatio < 0.3 && activeRef.value) emit('exit')
     },
     { threshold: [0, 0.05, 0.3] },
   )
@@ -861,31 +860,25 @@ onMounted(() => {
     sun.target.updateMatrixWorld()
   }
 
-  const clock = new THREE.Clock()
-  let t = 0
-  let sentReady = false
-  renderer.setAnimationLoop(() => {
-     console.log('ANIMATION LOOP DIPANGGIL')
+  
+const clock = new THREE.Clock()
+let t = 0
+let sentReady = false
 
+renderer.setAnimationLoop(() => {
   const dt = Math.min(clock.getDelta(), 0.05)
-  console.log('STATUS VISIBLE:', visible)
+
   if (!visible) return
+
   t += dt
   step(dt, t)
   renderer.render(scene, camera)
-  console.log('RENDER BERJALAN')
+
   if (!sentReady) {
-  console.log('JUMLAH OBJEK:', scene.children.length)
-  console.log('POSISI KAMERA:', camera.position)
-  console.log('UKURAN CANVAS:', renderer.domElement.width, renderer.domElement.height)
-}
-  console.log('RENDER BERJALAN', scene.children.length)
-    if (!sentReady) {
-  sentReady = true
-  console.log('DUNIA 3D: EVENT READY TERPANGGIL')
-  emit('ready')
-}
-  })
+    sentReady = true
+    emit('ready')
+  }
+})
 
   cleanup = () => {
     disposed = true
